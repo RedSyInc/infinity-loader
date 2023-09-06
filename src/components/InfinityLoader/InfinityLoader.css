@@ -1,23 +1,7 @@
-.title {
-    color: #fff;
-    text-align: center;
+.error-message {
+    color: #ac3131;
 }
-
-.list-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.image-preview {
-    height: 200px;
-    border-radius: 10px;
-    object-fit: contain;
-    margin: 20px;
-}
-
-/*copy-paste preloader*/
+/*generated preloader*/
 .lds-circle {
     display: inline-block;
     transform: translateZ(1px);

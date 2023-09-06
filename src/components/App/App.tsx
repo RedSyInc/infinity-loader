@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {InfinityLoader} from "../InfinityLoader/InfinityLoader";
+import {CatImage, TCatImageItem} from "../CatImage/CatImage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App: React.FC = () => {
+    const fetchData = async (page: number, perPage: number): Promise<TCatImageItem[]> => {
+        const response = await fetch(`https://api.thecatapi.com/v1/images/search?page=${page}&limit=${perPage}&size=small`,)
+        return response.json()
+    }
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1 className="title">
+                    Infinity loader demo
+                </h1>
+            </header>
+            <section>
+                <InfinityLoader<TCatImageItem>
+                    fetchData={fetchData}
+                    renderItem={(data) => <CatImage key={data.id} item={data}/>}
+                    className="list-wrap"
+                />
+            </section>
+        </div>
+    );
 }
-
-export default App;
