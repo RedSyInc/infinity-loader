@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react"
+import React, {memo, useCallback, useEffect, useRef, useState} from "react"
 import './InfinityLoader.css';
 
 interface IInfinityLoaderProps<T> {
@@ -7,18 +7,14 @@ interface IInfinityLoaderProps<T> {
     initialPage?: number
     perPage?: number
     scrollThreshold?: number
-    className?: string
 }
 
-const PER_PAGE = 10
-
-export const InfinityLoader = <T, >({
+const InfinityLoaderInner = <T, >({
                                         fetchData,
                                         renderItem,
                                         initialPage = 1,
-                                        perPage = PER_PAGE,
+                                        perPage = 10,
                                         scrollThreshold = 0,
-                                        className,
                                     }: IInfinityLoaderProps<T>) => {
     const loaderRef = useRef<HTMLDivElement | null>(null)
     const [items, setItems] = useState<T[]>([])
@@ -69,7 +65,7 @@ export const InfinityLoader = <T, >({
         return () => observer.disconnect()
     }, [handleObserver, scrollThreshold])
 
-    return <section className={className}>
+    return <>
         {items.map(item => renderItem(item))}
         {error && <div className="error-message">Error: {error}</div>}
         {!error && <div ref={loaderRef}>
@@ -77,5 +73,7 @@ export const InfinityLoader = <T, >({
                 <div></div>
             </div>
         </div>}
-    </section>
+    </>
 }
+
+export const InfinityLoader = memo(InfinityLoaderInner) as typeof InfinityLoaderInner
